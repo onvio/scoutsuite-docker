@@ -73,17 +73,17 @@ def main():
         programmatic_execution=True)
 
     scoutsuite_json_path = os.path.join(report_path, "scoutsuite-results", f"scoutsuite_results_{args.report_name}.js")
-    logging.info(f"Parsing report: {scoutsuite_json_path}")
-    report_json = parse_report(scoutsuite_json_path)
     output_path = os.path.join(report_path, "report.json")
+    report_json = parse_report(scoutsuite_json_path)
     write_report(report_json, output_path)
 
 def write_report(report_json, output_path):
-    logging.info(f"Writing json: {output_path}")
+    logging.info(f"Writing report: {output_path}")
     with open(output_path, 'w') as outfile:
         json.dump(report_json, outfile)
 
 def parse_report(report_path):
+    logging.info(f"Parsing report: {report_path}")
     json_report = load_json(report_path)
     qt_report = {
         "vulnerabilities": []
@@ -110,6 +110,7 @@ def parse_report(report_path):
     return qt_report
 
 def load_json(path):
+    logging.info(f"Loading json from: {path}")
     with open(path) as f:
         json_payload = f.readlines()
         json_payload.pop(0)
