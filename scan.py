@@ -112,7 +112,7 @@ def parse_report(report_path):
     for service_group in json_report["service_groups"].items():
         for item in service_group[1]["summaries"]["external_attack_surface"].items():
             issue = {
-                "title": "External exposed EC instance",
+                "title": "Internet facing instance",
                 "description": f'{item[1]["PublicDnsName"]} [{item[0]}] ({item[1]["InstanceName"]})',
                 "severity": "medium"
             }
