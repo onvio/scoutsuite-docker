@@ -108,22 +108,12 @@ def parse_report(report_path):
                 }
                 qt_report['vulnerabilities'].append(issue)
                 
-    # Report external attack surface for EC instances
-    for service_group in json_report["service_groups"]["compute"]["summaries"]["external_attack_surface"].items():
-        for item in service_group:
+    # Report external attack surface
+    for service_group in json_report["service_groups"].items():
+        for item in service_group[1]["summaries"]["external_attack_surface"].items():
             issue = {
                 "title": "External exposed EC instance",
-                "description": f'{service_group[1]["PublicDnsName"]} [{item}] ({service_group[1]["InstanceName"]})',
-                "severity": "medium"
-            }
-            qt_report['vulnerabilities'].append(issue)
-                
-    # Report external attack surface for DB instances
-    for service_group in json_report["service_groups"]["database"]["summaries"]["external_attack_surface"].items():
-        for item in service_group:
-            issue = {
-                "title": "External exposed DB instance",
-                "description": f'{service_group[1]["PublicDnsName"]} [{item}] ({service_group[1]["InstanceName"]})',
+                "description": f'{item[1]["PublicDnsName"]} [{item[0]}] ({item[1]["InstanceName"]})',
                 "severity": "medium"
             }
             qt_report['vulnerabilities'].append(issue)
